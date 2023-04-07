@@ -1,22 +1,16 @@
 -- Write a SQL script that creates a stored procedure.
-DROP PROCEDURE IF EXISTS ComputeAverageWeightedScoreForUser;
+DROP PROCEDURE IF EXISTS ComputeAverageWeightedScoreForUsers;
 
-DELIMITER $$
-
-CREATE PROCEDURE ComputeAverageWeightedScoreForUser(user_id INT)
+CREATE PROCEDURE ComputeAverageWeightedScoreForUsers()
 BEGIN
-    DECLARE avg_weighted_score FLOAT;
+    UPDATE users AS U
+    JOIN (
+        SELECT U.id, SUM(C.score * C.weight) / SUM(C.weight) AS w_avg 
+        FROM users AS U 
+        JOIN corrections AS C ON U.id=C.user_id 
+        JOIN projects AS P ON C.project_id=P.id 
+        GROUP BY U.id
+    ) AS WA ON U.id = WA.id
+    SET U.average_score = WA.w_avg;
+END;
 
-    SELECT SUM(score * weight) / SUM(weight) 
-    INTO avg_weighted_score
-    FROM users AS u 
-    JOIN corrections AS c ON u.id = c.user_id 
-    JOIN projects AS p ON c.project_id = p.id 
-    WHERE u.id = user_id;
-
-    UPDATE users 
-    SET average_score = avg_weighted_score 
-    WHERE id = user_id;
-END$$
-
-DELIMITER ;
