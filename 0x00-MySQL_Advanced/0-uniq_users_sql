@@ -1,4 +1,4 @@
--- creating user with id, email and name
+-- creating user with id, email and name.
 
 
 CREATE TABLE IF NOT EXISTS users (
