@@ -67,10 +67,10 @@ def replay(method: Callable) -> None:
 
 class Cache:
     '''init method for Cache class'''
-
     def __init__(self):
+        '''init method for cache class'''
         self._redis = redis.Redis()
-        self._redis.flushdb
+        self._redis.flushdb()
 
     @call_history
     @count_calls
