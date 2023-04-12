@@ -4,6 +4,7 @@ import json
 from uuid import uuid4
 from typing import Union, Callable, Optional
 from functools import wraps
+
 '''
 Create a Cache class. In the __init__ method,
 store an instance of the Redis client as a private
