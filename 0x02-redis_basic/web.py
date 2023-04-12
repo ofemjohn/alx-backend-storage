@@ -12,13 +12,13 @@ def track_get_page(fn: Callable) -> Callable:
     @wraps(fn)
     def wrapper(url: str) -> str:
         '''Decortator for counting'''
-        client = redis.Redis()
-        client.incr(f'count:{url}')
+        r = redis.Redis()
+        r.incr(f'count:{url}')
         cached_page = client.get(f'{url}')
         if cached_page:
             return cached_page.decode('utf-8')
         response = fn(url)
-        client.set(f'{url}', response, 10)
+        r.set(f'{url}', response, 10)
         return response
     return wrapper
 
