@@ -14,7 +14,7 @@ def track_get_page(fn: Callable) -> Callable:
         '''Decortator for counting'''
         r = redis.Redis()
         r.incr(f'count:{url}')
-        cached_page = client.get(f'{url}')
+        cached_page = r.get(f'{url}')
         if cached_page:
             return cached_page.decode('utf-8')
         response = fn(url)
