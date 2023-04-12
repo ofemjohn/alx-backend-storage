@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import redis
 import json
-import uuid
+from uuid import uuid4
 from typing import Union, Callable, Optional
 from functools import wraps
 '''
@@ -72,11 +72,11 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
-    @call_history
     @count_calls
+    @call_history
     def store(self, data: Union[str, float, int, bytes]) -> str:
         '''store data in cache with specified parameters'''
-        key = str(uuid.uuid4())
+        key = str(uuid4())
         self._redis.set(key, data)
         return key
 
