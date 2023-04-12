@@ -5,7 +5,7 @@ Python script that provides some stats
 from pymongo import MongoClient
 
 if __name__ == "__main__":
-    '''retrun a state about nginx logs'''
+    '''returns a state about nginx logs'''
     clientCollection = MongoClient('mongodb://127.0.0.1:27017')
     nginxCollection = clientCollection.logs.nginx
 
